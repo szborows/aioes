@@ -417,6 +417,7 @@ class Elasticsearch:
     @asyncio.coroutine
     def search(self, index=None, doc_type=None, body=None, *,
                _source=default, _source_exclude=default,
+               filter_path=default,
                _source_include=default, analyze_wildcard=default,
                analyzer=default, default_operator=default, df=default,
                explain=default, fields=default, indices_boost=default,
@@ -437,6 +438,8 @@ class Elasticsearch:
             index = '_all'
 
         params = {}
+        if filter_path is not default:
+            params['filter_path'] = ','.join(filter_path)
         if _source is not default:
             params['_source'] = _source
         if _source_exclude is not default:
